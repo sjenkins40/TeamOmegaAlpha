@@ -1,2 +1,2 @@
 # TeamOmegaAlpha
-GitHub repository for 
+GitHub repository for CS-4455 Team Omega class project

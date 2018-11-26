@@ -145,6 +145,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 }
             }
+            if (other.gameObject.CompareTag("Bullet"))
+            {
+                health--;
+                countText.text = "Health: " + health.ToString();
+                if (health <= 0)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                }
+            }
             if (other.gameObject.CompareTag("Death"))
             {
                 health = 0;

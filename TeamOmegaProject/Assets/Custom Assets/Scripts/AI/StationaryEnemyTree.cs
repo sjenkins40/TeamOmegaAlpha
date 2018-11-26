@@ -15,7 +15,7 @@ public class StationaryEnemyTree : BehaviorTree {
 							new LoopUntilFailure(
 									new Alternator(
 											new IfNotSuccess(new WaitForPlayer(15)),
-											new Attack(projectile, 0.5f, speed)
+											new Attack(projectile, 0.5f, speed, true)
 									)
 							)
 						);

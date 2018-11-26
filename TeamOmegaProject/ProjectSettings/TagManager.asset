@@ -10,6 +10,7 @@ TagManager:
   - Eye
   - GM
   - Death
+  - Bullet
   layers:
   - Default
   - TransparentFX

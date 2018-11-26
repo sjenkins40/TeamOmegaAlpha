@@ -7,26 +7,30 @@ public class Attack : BehaviorTreeNode {
 	private float firerate;
 	private float countdown = -1;
 	private float speed;
-	public Attack(Rigidbody projectile, float firerate, float speed)
+	private bool lookat;
+	public Attack(Rigidbody projectile, float firerate, float speed, bool lookat)
 	{
 		this.projectile = projectile;
 		this.firerate = firerate;
 		this.speed = speed;
+		this.lookat = lookat;
 	}
 	public override int Act (BehaviorTree tree)
 	{
-		tree.transform.LookAt(player.transform);
+		if(lookat)
+			tree.transform.LookAt(player.transform);
 		if(firerate > 0)
 		{
 			countdown -= Time.deltaTime;
 			if(countdown < 0)
 			{
 				countdown = firerate;
-				Vector3 direction = player.transform.position - tree.transform.position;
+				Vector3 direction = player.transform.position - tree.transform.position + new Vector3(0,1,0);
 				direction = direction.normalized;
 				Rigidbody t = UnityEngine.Object.Instantiate(projectile, tree.transform.position + direction, tree.transform.rotation);
 				t.velocity = direction* speed;
 				t.useGravity = false;
+				Object.Destroy(t, 30);
 			}
 		}
 		return -1;

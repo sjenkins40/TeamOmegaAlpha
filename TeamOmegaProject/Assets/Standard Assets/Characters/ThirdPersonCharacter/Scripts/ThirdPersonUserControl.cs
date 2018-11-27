@@ -138,17 +138,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (other.gameObject.CompareTag("Enemy"))
             {
-                health--;
-                countText.text = "Health: " + health.ToString();
-                if (health <= 0)
+                if (dashpunchState == false)
                 {
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    health--;
+                    countText.text = "Health: " + health.ToString();
+                    if (health <= 0)
+                    {
+                        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    }
+                } else
+                {
+                    //This is when the enemy and player collide while dashpunching. It destroys enemies.
+                    Destroy(other.gameObject);
                 }
             }
             if (other.gameObject.CompareTag("Bullet"))
             {
                 health--;
                 countText.text = "Health: " + health.ToString();
+                Destroy(other.gameObject);
                 if (health <= 0)
                 {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

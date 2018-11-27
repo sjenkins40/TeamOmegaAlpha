@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -828,7 +828,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 539550136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.20000002, y: 1.5, z: 3.44}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1336,7 +1336,7 @@ Transform:
   m_GameObject: {fileID: 751811094}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -21.44, y: -5, z: 11.31}
-  m_LocalScale: {x: 100, y: 1, z: 100}
+  m_LocalScale: {x: 200, y: 1, z: 200}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
@@ -1559,6 +1559,12 @@ Prefab:
       propertyPath: m_Size.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114822458733087114, guid: aa49353976ef4dc45b07e96e5c899968,
+        type: 2}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 54659708464798472, guid: 12704897da3b44840b04ef7b7bd4cf7d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa49353976ef4dc45b07e96e5c899968, type: 2}
   m_IsPrefabAsset: 0
@@ -1933,6 +1939,12 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -181.812
       objectReference: {fileID: 0}
+    - target: {fileID: 114822458733087114, guid: aa49353976ef4dc45b07e96e5c899968,
+        type: 2}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 54659708464798472, guid: 12704897da3b44840b04ef7b7bd4cf7d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa49353976ef4dc45b07e96e5c899968, type: 2}
   m_IsPrefabAsset: 0
@@ -2258,6 +2270,12 @@ Prefab:
       propertyPath: m_Size.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114822458733087114, guid: aa49353976ef4dc45b07e96e5c899968,
+        type: 2}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 54659708464798472, guid: 12704897da3b44840b04ef7b7bd4cf7d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa49353976ef4dc45b07e96e5c899968, type: 2}
   m_IsPrefabAsset: 0
@@ -3259,6 +3277,12 @@ Prefab:
       propertyPath: m_Size.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114822458733087114, guid: aa49353976ef4dc45b07e96e5c899968,
+        type: 2}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 54659708464798472, guid: 12704897da3b44840b04ef7b7bd4cf7d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa49353976ef4dc45b07e96e5c899968, type: 2}
   m_IsPrefabAsset: 0

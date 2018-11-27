@@ -11,7 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Custom Assets/scenes/alphaDemo.unity
     guid: 94e7831666bc1e941974874af512f54d
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Custom Assets/scenes/level2.unity
+    guid: 6faf9715eeab86e4389719f9c008cffa
   - enabled: 1
     path: Assets/Custom Assets/scenes/End Screen.unity
-    guid: de76ca4cbf9097f4c99d6009901c5828
+    guid: 42efa7c748abae346b6491a04d48882e
   m_configObjects: {}

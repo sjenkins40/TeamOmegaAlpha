@@ -13,7 +13,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Transform m_Cam;                  // A reference to the main camera in the scenes transform
         private Vector3 m_CamForward;             // The current forward direction of the camera
         private Vector3 m_Move;
-        private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
+        private bool m_Jump;                    // the world-relative desired move direction, calculated from the camForward and user input.
         private int health;
         public Text countText;
 		public bool dashpunch;
@@ -22,6 +22,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		public bool dashpunchAvailable = true;
 		private bool grounded;
 		private bool doublejump;
+        public bool knockback;
+        public int knockbackTime;
 		int jumpstatus;
         public AudioClip DashClip;
         public AudioClip JumpClip;
@@ -139,6 +141,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				dashTime = 0;
 			}
 
+            if (knockback == true) {
+                knockbackTime += 1;
+                if (knockbackTime == 8) {
+                    knockback = false;
+                    m_Character.m_Animator.SetBool("Knockback", false);
+                    knockbackTime = 0;
+                }
+            }
+
 			m_Character.m_Animator.SetInteger ("DashTime", dashTime);
 			//countText.text = dashTime.ToString();
 
@@ -175,6 +186,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 {
                     //This is when the enemy and player collide while dashpunching. It destroys enemies.
                     Destroy(other.gameObject);
+
+                    //begins knockback
+                    knockback = true;
+                    m_Character.m_Animator.SetBool("Knockback", true);
+                    knockbackTime = 0;
+
+                    //turns off dashpunch
+                    m_Character.m_Animator.SetBool ("DashPunch", false);
+                    dashpunchState = false;
+                    dashTime = 0;
+
+                    //makes dashpunch available again
+                    dashpunchAvailable = true;
+                    m_Character.m_Animator.SetBool ("DashAvailable", dashpunchAvailable);
+
+                    //makes double jump available again
+                    m_Character.m_Animator.SetBool("DoubleJump", false);
+                    doublejump = false;
+                    jumpstatus = 0;
                 }
             }
             if (other.gameObject.CompareTag("Bullet"))

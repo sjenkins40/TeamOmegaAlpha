@@ -224,18 +224,24 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		public void OnAnimatorMove()
 		{
-			
+			bool knockback = m_Animator.GetBool("Knockback");
+
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
 			
-			if (Time.deltaTime > 0 && dashpunch == false && jumpcancel == false) {
+			if (Time.deltaTime > 0 && dashpunch == false && jumpcancel == false && knockback == false) {
 				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
 				Vector3 v2 = (moveVector * m_MoveSpeedMultiplier) / Time.deltaTime / 10;
 
 				// we preserve the existing y part of the current velocity.
 				v2.y = m_Rigidbody.velocity.y;
 				m_Rigidbody.velocity = v2;
-			} else if (dashpunch == true && jumpcancel == false) {
+			} else if (knockback == true && dashpunch == false && m_Animator.GetBool("DoubleJump") == false) {
+            	Vector3 v = (transform.localRotation * Vector3.forward) / Time.deltaTime / -8;
+				v.y = 0;
+				m_Rigidbody.velocity = v;
+				m_Rigidbody.AddForce(0, jumpPower / 4, 0);
+            }else if (dashpunch == true && jumpcancel == false) {
 				Vector3 v = (transform.localRotation * Vector3.forward * m_MoveSpeedMultiplier) / Time.deltaTime / 4;
 				v.y = 0;
 				m_Rigidbody.velocity = v;

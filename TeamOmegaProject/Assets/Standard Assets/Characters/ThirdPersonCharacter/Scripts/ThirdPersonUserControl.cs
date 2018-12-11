@@ -23,6 +23,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		private bool grounded;
 		private bool doublejump;
 		int jumpstatus;
+        public AudioClip DashClip;
+        public AudioClip JumpClip;
+        public AudioClip BackgroundClip;
+        public AudioSource MusicSource;
+        public AudioSource JumpSource;
+        public AudioSource BackgroundSource;
+        int numjumps;
 
         private void Start()
         {
@@ -43,6 +50,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             m_Character = GetComponent<ThirdPersonCharacter>();
             health = 12;
             countText.text = "Health: " + health.ToString();
+            MusicSource.clip = DashClip;
+            JumpSource.clip = JumpClip;
+            BackgroundSource.clip = BackgroundClip;
+            //BackgroundSource.Play();
+            numjumps = 0;
         }
 
 
@@ -56,7 +68,19 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (!dashpunch)
 			{
 				dashpunch = CrossPlatformInputManager.GetButtonDown ("DashPunch");
-			}
+            }
+            if (m_Character.m_Animator.GetBool("OnGround"))
+            {
+                numjumps = 0;
+            }
+            if (Input.GetKeyDown("space"))
+            {
+                numjumps++;
+                if (numjumps <= 2)
+                {
+                    JumpSource.Play();
+                }
+            }
 
         }
 
@@ -96,7 +120,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			doublejump = m_Character.m_Animator.GetBool ("DoubleJump");
 
 			if (dashpunchState == false && dashpunch == true && dashpunchAvailable == true) {
-				m_Character.m_Animator.SetBool ("DashPunch", true);
+                MusicSource.Play();
+                m_Character.m_Animator.SetBool ("DashPunch", true);
 				m_Character.m_Animator.SetBool ("DashAvailable", false);
 				dashpunchState = true;
 				dashTime = 0;
@@ -154,9 +179,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
             if (other.gameObject.CompareTag("Bullet"))
             {
-                health--;
-                countText.text = "Health: " + health.ToString();
-                Destroy(other.gameObject);
+                if (dashpunchState == false)
+                {
+                    health--;
+                    countText.text = "Health: " + health.ToString();
+                    Destroy(other.gameObject);
+                }
                 if (health <= 0)
                 {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

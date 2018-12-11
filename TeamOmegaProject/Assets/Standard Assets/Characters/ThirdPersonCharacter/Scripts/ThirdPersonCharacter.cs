@@ -244,6 +244,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 v = transform.localRotation * Vector3.forward * m_MoveSpeedMultiplier / m_AirControlFactor;
 
                 v.y = m_Rigidbody.velocity.y;
+                v.x = m_Rigidbody.velocity.x;
+                v.z = m_Rigidbody.velocity.z;
                 m_Rigidbody.velocity = v;
                 if (dashpunch == false) {
                 	jumpcancel = false;

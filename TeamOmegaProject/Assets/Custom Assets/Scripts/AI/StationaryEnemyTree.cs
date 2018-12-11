@@ -6,7 +6,7 @@ public class StationaryEnemyTree : BehaviorTree {
 	// Use this for initialization
 	public Rigidbody projectile;
 	public float speed;
-	void Start () {
+    void Start () {
 		root = new Sequence(
 							new ChangeColour(new UnityEngine.Color(0.1f, 0.4f, 0.1f)),
 							new WaitForPlayer(15),

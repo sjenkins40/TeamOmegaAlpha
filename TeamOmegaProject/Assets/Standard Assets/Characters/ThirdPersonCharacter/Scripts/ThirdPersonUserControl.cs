@@ -26,9 +26,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public AudioClip DashClip;
         public AudioClip JumpClip;
         public AudioClip BackgroundClip;
+        public AudioClip RobotClip;
+        public AudioClip DamageClip;
         public AudioSource MusicSource;
         public AudioSource JumpSource;
         public AudioSource BackgroundSource;
+        public AudioSource RobotSource;
+        public AudioSource DamageSource;
         int numjumps;
 
         private void Start()
@@ -53,6 +57,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             MusicSource.clip = DashClip;
             JumpSource.clip = JumpClip;
             BackgroundSource.clip = BackgroundClip;
+            RobotSource.clip = RobotClip;
+            DamageSource.clip = DamageClip;
             BackgroundSource.Play();
             numjumps = 0;
         }
@@ -166,6 +172,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 if (dashpunchState == false)
                 {
                     health--;
+                    DamageSource.Play();
                     countText.text = "Health: " + health.ToString();
                     if (health <= 0)
                     {
@@ -175,6 +182,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 {
                     //This is when the enemy and player collide while dashpunching. It destroys enemies.
                     Destroy(other.gameObject);
+                    RobotSource.Play();
                 }
             }
             if (other.gameObject.CompareTag("Bullet"))
@@ -182,9 +190,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 if (dashpunchState == false)
                 {
                     health--;
+                    DamageSource.Play();
                     countText.text = "Health: " + health.ToString();
-                    Destroy(other.gameObject);
                 }
+                Destroy(other.gameObject);
                 if (health <= 0)
                 {
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

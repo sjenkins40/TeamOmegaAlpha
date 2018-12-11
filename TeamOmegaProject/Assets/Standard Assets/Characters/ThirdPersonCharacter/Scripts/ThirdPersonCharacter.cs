@@ -30,7 +30,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 		bool dashpunch;
-		bool jumpcancel;
+		public bool jumpcancel;
+		public float jumpPower;
+		public Vector3 moveVector;
 
 
 		void Start()
@@ -40,6 +42,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Capsule = GetComponent<CapsuleCollider>();
 			m_CapsuleHeight = m_Capsule.height;
 			m_CapsuleCenter = m_Capsule.center;
+			jumpPower = 600;
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
@@ -52,6 +55,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
+			moveVector = move;
 			if (move.magnitude > 1f) move.Normalize();
 			move = transform.InverseTransformDirection(move);
 			CheckGroundStatus();
@@ -159,12 +163,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (jump && m_Animator.GetBool("DoubleJump") == false)
 			{
 				// jump!
-                float airDirX = Input.GetAxis("Horizontal") * m_MoveSpeedMultiplier / 4;
-                float airDirZ = Input.GetAxis("Vertical") * m_MoveSpeedMultiplier / 4;
-
-				float doubleJumpPower = m_JumpPower;
-                m_Rigidbody.velocity += new Vector3(m_Rigidbody.velocity.x, 0, m_Rigidbody.velocity.z);
-                m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, doubleJumpPower, m_Rigidbody.velocity.z);
+                m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, m_Rigidbody.velocity.z);
+                m_Rigidbody.AddForce(0, jumpPower, 0);
+                //m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, doubleJumpPower, m_Rigidbody.velocity.z);
 
                 if (dashpunch == true) {
                 	jumpcancel = true;
@@ -192,12 +193,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void HandleGroundedMovement(bool crouch, bool jump)
 		{
 			// check whether conditions are right to allow a jump:
-			if (jump && !crouch && (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") || m_Animator.GetBool("DoubleJump") == false))
+			if (jump && !crouch && (m_Animator.GetBool("OnGround") == true || m_Animator.GetBool("DoubleJump") == false))
 			{
 				// jump!
-                float airDirX = Input.GetAxis("Horizontal") * m_MoveSpeedMultiplier / 4;
-                float airDirZ = Input.GetAxis("Vertical") * m_MoveSpeedMultiplier / 4;
-                m_Rigidbody.velocity += new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
+                m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 0, m_Rigidbody.velocity.z);
+                m_Rigidbody.AddForce(0, jumpPower, 0);
 
                 if (dashpunch) {
                 	jumpcancel = true;
@@ -211,6 +211,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.applyRootMotion = false;
 				m_GroundCheckDistance = 0.1f;
 			}
+			
 		}
 
 		void ApplyExtraTurnRotation()
@@ -226,14 +227,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
-			if (m_IsGrounded && Time.deltaTime > 0 && dashpunch == false && jumpcancel == false) {
+			
+			if (Time.deltaTime > 0 && dashpunch == false && jumpcancel == false) {
 				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
+				Vector3 v2 = (moveVector * m_MoveSpeedMultiplier) / Time.deltaTime / 10;
 
 				// we preserve the existing y part of the current velocity.
-				v.y = m_Rigidbody.velocity.y;
-				m_Rigidbody.velocity = v;
+				v2.y = m_Rigidbody.velocity.y;
+				m_Rigidbody.velocity = v2;
 			} else if (dashpunch == true && jumpcancel == false) {
-				Vector3 v = (transform.localRotation * Vector3.forward * m_MoveSpeedMultiplier / 190) / Time.deltaTime;
+				Vector3 v = (transform.localRotation * Vector3.forward * m_MoveSpeedMultiplier) / Time.deltaTime / 4;
 				v.y = 0;
 				m_Rigidbody.velocity = v;
             } else {
@@ -252,6 +255,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             	}
             }
 
+
 		} 
 
 
@@ -269,7 +273,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.SetBool("DoubleJump", false);
-				m_Animator.applyRootMotion = true;
+				//m_Animator.applyRootMotion = true;
 			}
 			else
 			{

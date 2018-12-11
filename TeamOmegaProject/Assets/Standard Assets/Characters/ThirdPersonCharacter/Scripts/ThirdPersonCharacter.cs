@@ -15,7 +15,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		[SerializeField] float m_MoveSpeedMultiplier = 1f;
 		[SerializeField] float m_AnimSpeedMultiplier = 1f;
 		[SerializeField] float m_GroundCheckDistance = 0.1f;
-        [SerializeField] float m_AirControlFactor = 10f;
 
 		Rigidbody m_Rigidbody;
 		public Animator m_Animator;
@@ -32,7 +31,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		bool dashpunch;
 		public bool jumpcancel;
 		public float jumpPower;
-		public Vector3 moveVector;
+		Vector3 moveVector;
 
 
 		void Start()
@@ -245,22 +244,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				Vector3 v = (transform.localRotation * Vector3.forward * m_MoveSpeedMultiplier) / Time.deltaTime / 4;
 				v.y = 0;
 				m_Rigidbody.velocity = v;
-            } else {
-                // Allow air movement control 
-                Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
-
-                // Adjust m_AirControlFactor for tweaking in-air movement
-                v = transform.localRotation * Vector3.forward * m_MoveSpeedMultiplier / m_AirControlFactor;
-
-                v.y = m_Rigidbody.velocity.y;
-                v.x = m_Rigidbody.velocity.x;
-                v.z = m_Rigidbody.velocity.z;
-                m_Rigidbody.velocity = v;
-                if (dashpunch == false) {
-                	jumpcancel = false;
-            	}
             }
-
 
 		} 
 

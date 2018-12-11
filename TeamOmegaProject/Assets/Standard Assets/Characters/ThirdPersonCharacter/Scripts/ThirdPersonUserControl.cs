@@ -22,6 +22,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		public bool dashpunchAvailable = true;
 		private bool grounded;
 		private bool doublejump;
+        private bool firstjump;
+        private int jumpsAvailable;
         public bool knockback;
         public int knockbackTime;
 		int jumpstatus;
@@ -125,6 +127,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             }
 
 			m_Character.m_Animator.SetBool ("DashAvailable", dashpunchAvailable);
+            
+            jumpsAvailable = 0;
+            if (m_Character.m_Animator.GetBool("DoubleJump") == false) {
+                jumpsAvailable = 1;
+                if (m_Character.m_Animator.GetBool ("FirstJump") == false) {
+                    jumpsAvailable = 2;
+                }
+            }
+
+            firstjump = m_Character.m_Animator.GetBool ("FirstJump");
 			doublejump = m_Character.m_Animator.GetBool ("DoubleJump");
 
 			if (dashpunchState == false && dashpunch == true && dashpunchAvailable == true) {
@@ -135,13 +147,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				dashTime = 0;
 				dashpunchAvailable = false;
 				if (doublejump == true) {
-					jumpstatus = 1;
-				} else {
+					jumpstatus = 2;
+				} else if (firstjump == true) {
+                    jumpstatus = 1;
+                } else {
 					jumpstatus = 0;
 				}
-			} else if (dashpunchState == true && dashTime < 18 && (jumpstatus == 1 || (jumpstatus == 0 && doublejump == false))) {
+			} else if (dashpunchState == true && dashTime < 18 && (jumpstatus == 2 || (jumpstatus == 1 && doublejump == false) || (jumpstatus == 0 && firstjump == false))) {
 				dashTime += 1;
-			} else if (dashpunchState == true && (dashTime >= 18 || (jumpstatus == 0 && doublejump == true))) {
+			} else if (dashpunchState == true && (dashTime >= 18 || (jumpstatus == 0 && firstjump == true) || (jumpstatus == 1 && doublejump == true))) {
 				m_Character.m_Animator.SetBool ("DashPunch", false);
 				dashpunchState = false;
 				dashTime = 0;
@@ -212,7 +226,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                     //makes double jump available again
                     m_Character.m_Animator.SetBool("DoubleJump", false);
                     doublejump = false;
-                    jumpstatus = 0;
+                    jumpstatus = 1;
+
+                    //turns off first jump if applicable
+                    m_Character.m_Animator.SetBool("FirstJump", true);
+                    firstjump = true;
                 }
             }
             if (other.gameObject.CompareTag("Bullet"))

@@ -172,7 +172,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 				if (m_IsGrounded == true) {
 					m_IsGrounded = false;
-				} else if (m_IsGrounded == false && m_Animator.GetBool ("DoubleJump") == false) {
+					m_Animator.SetBool ("FirstJump", true);
+				} else if (m_IsGrounded == false && m_Animator.GetBool("FirstJump") == false) {
+					m_Animator.SetBool ("FirstJump", true);
+				} else if (m_IsGrounded == false && m_Animator.GetBool("FirstJump") == true && m_Animator.GetBool ("DoubleJump") == false) {
 					m_Animator.SetBool ("DoubleJump", true);
 				}
 				m_Animator.applyRootMotion = false;
@@ -204,7 +207,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 				if (m_IsGrounded == true) {
 					m_IsGrounded = false;
-				} else if (m_IsGrounded == false && m_Animator.GetBool ("DoubleJump") == false) {
+					m_Animator.SetBool ("FirstJump", true);
+				} else if (m_IsGrounded == false && m_Animator.GetBool("FirstJump") == false) {
+					m_Animator.SetBool ("FirstJump", true);
+				} else if (m_IsGrounded == false && m_Animator.GetBool("FirstJump") == true && m_Animator.GetBool ("DoubleJump") == false) {
 					m_Animator.SetBool ("DoubleJump", true);
 				}
 				m_Animator.applyRootMotion = false;
@@ -228,9 +234,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
 			
-			if (Time.deltaTime > 0 && dashpunch == false && jumpcancel == false && knockback == false) {
+			if (Time.deltaTime > 0 && (dashpunch == false || jumpcancel == true) && knockback == false) {
 				Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
 				Vector3 v2 = (moveVector * m_MoveSpeedMultiplier) / Time.deltaTime / 10;
+
+				jumpcancel = false;
 
 				// we preserve the existing y part of the current velocity.
 				v2.y = m_Rigidbody.velocity.y;
@@ -263,6 +271,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;
 				m_Animator.SetBool("DoubleJump", false);
+				m_Animator.SetBool("FirstJump", false);
 				//m_Animator.applyRootMotion = true;
 			}
 			else

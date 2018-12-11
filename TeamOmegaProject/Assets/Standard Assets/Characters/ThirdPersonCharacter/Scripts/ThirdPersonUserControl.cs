@@ -53,7 +53,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             MusicSource.clip = DashClip;
             JumpSource.clip = JumpClip;
             BackgroundSource.clip = BackgroundClip;
-            //BackgroundSource.Play();
+            BackgroundSource.Play();
             numjumps = 0;
         }
 

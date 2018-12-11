@@ -1217,11 +1217,9 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1.2
   m_GroundCheckDistance: 0.3
-  m_AirControlFactor: 10
   m_Animator: {fileID: 489774358}
   jumpcancel: 0
   jumpPower: 0
-  moveVector: {x: 0, y: 0, z: 0}
 --- !u!114 &489774355
 MonoBehaviour:
   m_ObjectHideFlags: 0

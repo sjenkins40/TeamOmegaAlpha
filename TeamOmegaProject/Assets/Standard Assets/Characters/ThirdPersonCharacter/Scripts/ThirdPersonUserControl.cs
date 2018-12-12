@@ -15,7 +15,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_Move;
         private bool m_Jump;                    // the world-relative desired move direction, calculated from the camForward and user input.
         private int health;
-        public Text countText;
+		public GameObject HUD;
+		public Text countText;
 		public bool dashpunch;
 		public bool dashpunchState;
 		public int dashTime;
@@ -187,6 +188,8 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_Character.Move(m_Move, crouch, m_Jump);
             m_Jump = false;
 			dashpunch = false;
+
+			HUD.GetComponent<updateHUD>().updateHealth(health);
         }
 
 

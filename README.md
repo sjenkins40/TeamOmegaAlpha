@@ -32,7 +32,14 @@ defeated using a dash punch, and the dash punch will also have a bit of knockbac
 the player feedback. When a player defeats an enemy, the player's dashpunch and double jump get reset, allowing the
 player to continue their aerial movement.
 
-External resources include the following:
+In terms of the work everyone did, Evan added the sound effects, the checkpoint, and the health. Alex made the UI for 
+the screens and created the levels. Sam created the model of the main character and the various animations 
+associated with her. Thor created the AI of the enemies and helped with some level design as well. Aaron handled most
+of the mechanics involving the main character, including the dash and double jump.
+
+Finally to play the game, open the Main Menu scene found in the scene folder of Custom Assets.
+
+External resources used include the following:
 Futuristic Panel textures from the unity asset store here: https://assetstore.unity.com/packages/2d/textures-materials/futuristic-panel-textures-lite-80176
 Background Music: Quick Man Stage - Super Smash Bros. for Wii U
 Jump Sound Effect: https://www.youtube.com/watch?v=txfUpVlZSoM
